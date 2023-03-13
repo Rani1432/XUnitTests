@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+Enter Value One: <input type="text" ng-model="valueOne"> <br/><br/>
+Enter Value Two: <input type="text" ng-model="valueTwo"> <br/><br/>
+
+<p ng-if="multiplyValue">Multipliaction Value = {{multiplyValue}}</p>
+<p ng-if="additionValue">Addition Value = {{additionValue}}</p>
+<p ng-if="subValue">Substration Value = {{subValue}}</p>
+
+<button ng-disabled="!valueOne || !valueTwo" ng-click="multiply()" >Multiply</button>
+<button ng-disabled="!valueOne || !valueTwo" ng-click="addition()">Addition</button>
+<button ng-disabled="!valueOne || !valueTwo" ng-click="substration()">Subscration</button>
+</div>
+
+<script>
+var app = angular.module("myApp", []);
+app.controller("myCtrl", function($scope, $http) {
+    $scope.valueOne = null;
+    $scope.valueTwo = null;
+	
+	$scope.multiplyValue = null;
+	$scope.additionValue = null;
+	$scope.subValue = null;
+	
+	$scope.multiply = function(){
+		//$scope.multiplyValue = $scope.valueOne * $scope.valueTwo;	
+		var url = "https://localhost:7205/Simple/multiplication/"+$scope.valueOne+"/"+$scope.valueTwo;
+		$http.get(url).then(function(response) { 
+			$scope.multiplyValue = response.data; 
+		});
+	}
+	
+	$scope.addition = function(){
+		//$scope.additionValue = $scope.valueOne + $scope.valueTwo;	
+		var url = "https://localhost:7205/Simple/addition/"+$scope.valueOne+"/"+$scope.valueTwo;
+		$http.get(url).then(function(response) {
+		
+			$scope.additionValue = response.data;
+		});		
+	}
+	
+	$scope.substration = function(){
+		//$scope.subValue = $scope.valueOne - $scope.valueTwo;
+		var url = "https://localhost:7205/Simple/substration/"+$scope.valueOne+"/"+$scope.valueTwo;
+		$http.get(url).then(function(response) {
+			$scope.subValue = response.data;
+		});		
+	}
+});
+</script>
+
+</body>
+</html>
